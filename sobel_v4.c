@@ -40,24 +40,12 @@ unsigned char input[SIZE*SIZE], output[SIZE*SIZE], golden[SIZE*SIZE];
 int convolution2D(int posy, int posx, const unsigned char *input, char operator[][3]) {
 	int i, j, res;
   
-	// res = 0;
-	// for (j = -1; j <= 1; j++) {
-	// 	for (i = -1; i <= 1; i++) {
-	// 		res += input[(posy + i)*SIZE + posx + j] * operator[i+1][j+1];
-	// 	}
-	// }
-	
-	//Take out both loops and do linear calculations for all 9 elements
-	res += input[(posy + -1)*SIZE + posx + -1] * operator[0][0];
-	res += input[(posy + 0)*SIZE + posx + -1] * operator[1][0];
-	res += input[(posy + 1)*SIZE + posx + -1] * operator[2][0];
-	res += input[(posy + -1)*SIZE + posx + 0] * operator[0][1];
-	res += input[(posy + 0)*SIZE + posx + 0] * operator[1][1];
-	res += input[(posy + 1)*SIZE + posx + 0] * operator[2][1];
-	res += input[(posy + -1)*SIZE + posx + 1] * operator[0][2];
-	res += input[(posy + 0)*SIZE + posx + 1] * operator[1][2];
-	res += input[(posy + 1)*SIZE + posx + 1] * operator[2][2];
-
+	res = 0;
+	for (j = -1; j <= 1; j++) {
+		for (i = -1; i <= 1; i++) {
+			res += input[(posy + i)*SIZE + posx + j] * operator[i+1][j+1];
+		}
+	}
 	return(res);
 }
 
@@ -129,13 +117,9 @@ double sobel(unsigned char *input, unsigned char *output, unsigned char *golden)
 				output[i*SIZE + j] = 255;      
 			else
 				output[i*SIZE + j] = (unsigned char)res;
-		}
-	}
 
-	/* Now run through the output and the golden output to calculate *
-	 * the MSE and then the PSNR.									 */
-	for (i=1; i<SIZE-1; i++) {
-		for ( j=1; j<SIZE-1; j++ ) {
+			/* Now run through the output and the golden output to calculate *
+			* the MSE and then the PSNR.*/
 			t = pow((output[i*SIZE+j] - golden[i*SIZE+j]),2);
 			PSNR += t;
 		}
