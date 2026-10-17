@@ -40,7 +40,7 @@ unsigned char input[SIZE*SIZE], output[SIZE*SIZE], golden[SIZE*SIZE];
 int convolution2D(int posy, int posx, const unsigned char *input, char operator[][3]) {
 	int i, j, res;
   
-	// res = 0;
+	res = 0;
 	// for (j = -1; j <= 1; j++) {
 	// 	for (i = -1; i <= 1; i++) {
 	// 		res += input[(posy + i)*SIZE + posx + j] * operator[i+1][j+1];
